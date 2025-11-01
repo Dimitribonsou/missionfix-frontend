@@ -7,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrl: './forget-password.scss'
 })
 export class ForgetPassword {
+appName: any='MissionFix';
 
 }

@@ -1,4 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 /* You can add global styles to this file, and also import other style files */
+$primary-color: rgb(30, 58, 138);
+$secondary-color: rgb(245, 158, 11);
+$bg-color:#F3F4F6;
+$text-color:#111827;
+$success-color:#10B981;
+$danger-color:#EF4444;
+$primary-font: 'Open  sans', sans-serif;
+$secondary-font: 'Inter', sans-serif;
+$font-size: 16px;
+$border-radius: 5px;
+$box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+$linear-gradient: linear-gradient(to right, $primary-color, $secondary-color);
+body
+{
+    background-color: $linear-gradient!important;
+    font-family: $primary-font;
+}
 
+.btn {
+  @apply px-4 py-2 rounded-base font-medium shadow-base transition duration-200;
+}
+
+.btn-primary {
+  @apply bg-primary text-white hover:bg-secondary;
+}
+
+.btn-secondary {
+  @apply bg-secondary text-white hover:bg-primary;
+}
+
+.btn-outline {
+  @apply border border-primary text-primary hover:bg-primary hover:text-white;
+}
+// .input {
+//   @apply border border-gray-300 rounded-base px-4 py-2 w-full focus:outline-none focus:border-primary;
+// }
+.input {
+  @apply border border-primary bg-transparent text-text rounded-base px-4 py-2 w-full focus:outline-none focus:border-primary;
+}
 
 
