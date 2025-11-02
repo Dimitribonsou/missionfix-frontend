@@ -1,1 +1,173 @@
-<p>register works!</p>
+<!-- register.component.html -->
+
+<div class="min-h-screen bg-gray-100 flex flex-col justify-center py-4 sm:px-6 lg:px-8 px-3">
+  <div class="sm:mx-auto sm:w-full sm:max-w-md flex justify-center items-center">
+    <img src="assets/images/primary-logo.png" class="w-32 h-20" alt="logo" />
+  </div>
+
+  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md rounded-lg bg-primary">
+    <div class="py-2 px-3 sm:px-5 md:px-10">
+      <h2 class="my-3 text-left text-xl font-medium text-white">
+        Créez votre compte sur <strong class="text-secondary"></strong>
+      </h2>
+    </div>
+
+    <div class="bg-white py-5 px-4 shadow sm:rounded-lg sm:px-10">
+
+      <!-- Informations Comptes -->
+        <h2 class="text-lg font-medium mb-4 pb-2 text-black border-b border-gray-300">Informations Comptes</h2>
+
+      @if (registerFrom) {
+        <form class="space-y-4" [formGroup]="registerFrom" (ngSubmit)="onSubmit()" novalidate>
+
+
+           <div class="mb-4">
+          <label for="username" class="block text-sm font-medium mb-1 text-black">Nom d'utilisateur</label>
+          <input id="username" type="text" formControlName="username" placeholder="Entrez votre nom"
+                 class="input">
+          @if (registerFrom.get('username')?.invalid && registerFrom.get('username')?.touched) {
+            <small class="text-red-500 text-sm">Le nom d'utilisateur est obligatoire</small>
+          }
+        </div>
+
+        <!-- Email -->
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-medium mb-1 text-black">Email</label>
+          <input id="email" type="email" formControlName="email" placeholder="Entrez votre email"
+                 class="input">
+          @if (registerFrom.get('email')?.invalid && registerFrom.get('email')?.touched) {
+            <small class="text-red-500 text-sm">Email invalide</small>
+          }
+        </div>
+
+        <!-- Password -->
+        <div class="mb-4">
+          <label for="userPassword" class="block text-sm font-medium mb-1 text-black">Mot de passe</label>
+          <div class="relative">
+            <input id="userPassword" [type]="showPassword ? 'text' : 'userPassword'" formControlName="userPassword" placeholder="Entrez votre mot de passe"
+                   class="input">
+            <button type="button" (click)="togglePasswordVisibility()"
+                    class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-600 hover:text-gray-800 focus:outline-none">
+              @if (showPassword) {
+                <i class="pi pi-eye-slash"></i>
+              }
+              @if (!showPassword) {
+                <i class="pi pi-eye"></i>
+              }
+            </button>
+          </div>
+          @if (registerFrom.get('userPassword')?.invalid && registerFrom.get('userPassword')?.touched) {
+            <small class="text-red-500 text-sm">Minimum 6 caractères</small>
+          }
+        </div>
+
+
+
+        <!-- Informations Personnels -->
+        <h2 class="text-lg font-medium mb-4 pb-2 text-black border-b ">Informations Personnels</h2>
+
+        <!-- Full Name -->
+        <div class="mb-4">
+          <label for="fullName" class="block text-sm font-medium mb-1 text-black">Nom complet</label>
+          <input id="fullName" type="text" formControlName="fullName" placeholder="Votre nom complet"
+                 class="input">
+          @if (registerFrom.get('fullName')?.invalid && registerFrom.get('fullName')?.touched) {
+            <small class="text-red-500 text-sm">Nom complet requis</small>
+          }
+        </div>
+
+        <!-- Grid pour Ville et Quartier -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <!-- Ville -->
+          <div>
+            <label for="ville" class="block text-sm font-medium mb-1 text-black">Ville</label>
+            <select id="city" formControlName="city"
+                    class="input">
+              <option value="" class="text-gray-600">Sélectionnez une ville</option>
+              @for (city of cities; track city.value) {
+                <option [value]="city.value" class="text-black">{{ city.label }}</option>
+              }
+            </select>
+            @if (registerFrom.get('city')?.invalid && registerFrom.get('city')?.touched) {
+              <small class="text-red-500 text-sm">La ville est requise</small>
+            }
+          </div>
+
+          <!-- Quartier -->
+          <div>
+            <label for="quartier" class="block text-sm font-medium mb-1 text-black">Quartier</label>
+            <select id="address" formControlName="address"
+                    class="input">
+              <option value="" class="text-gray-600">Sélectionnez un quartier</option>
+              @for (neighborhood of neighborhoods; track neighborhood.value) {
+                <option [value]="neighborhood.value" class="text-black">{{ neighborhood.label }}</option>
+              }
+            </select>
+            @if (registerFrom.get('address')?.invalid && registerFrom.get('address')?.touched) {
+              <small class="text-red-500 text-sm">Le quartier est requis</small>
+            }
+          </div>
+        </div>
+
+        <!-- Birthday -->
+        <div class="mb-4">
+          <label for="birthday" class="block text-sm font-medium mb-1 text-black">Date de naissance</label>
+          <input id="birthday" type="date" formControlName="birthday"
+                 class="input">
+          @if (registerFrom.get('birthday')?.invalid && registerFrom.get('birthday')?.touched) {
+            <small class="text-red-500 text-sm">Date invalide (AAAA-MM-JJ)</small>
+          }
+        </div>
+
+        <!-- Phone Number -->
+        <div class="mb-4">
+          <label for="phoneNumber" class="block text-sm font-medium mb-1 text-black">Téléphone</label>
+          <input id="phoneNumber" type="tel" formControlName="phoneNumber" placeholder="Votre téléphone"
+                 class="input">>
+          @if (registerFrom.get('phoneNumber')?.invalid && registerFrom.get('phoneNumber')?.touched) {
+            <small class="text-red-500 text-sm">Téléphone requis</small>
+          }
+        </div>
+
+        <!-- Role -->
+        <div class="mb-6">
+          <label for="role" class="block text-sm font-medium mb-1 text-black">Rôle</label>
+          <select id="role" formControlName="role"
+                  class="input">
+            <option value="" class="text-gray-600">Sélectionnez un rôle</option>
+            @for (role of roleOptions; track role.value) {
+              <option [value]="role.value" class="text-black">{{ role.label }}</option>
+            }
+          </select>
+          @if (registerFrom.get('role')?.invalid && registerFrom.get('role')?.touched) {
+            <small class="text-red-500 text-sm">Le rôle est requis</small>
+          }
+        </div>
+
+
+
+          <!-- Bouton -->
+          <div>
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <button type="submit" [disabled]="registerFrom.invalid"
+                  class="h-full bg-blue-500 text-red-500 border-red-500 focus:ring-2 focus:ring-offset-2 w-full btn btn-primary">
+            S'inscrire
+          </button>
+          <button type="button" (click)="onReset()"
+                  class="h-full  bg-red-500 text-white-500 border-red-500 focus:ring-2 focus:ring-offset-2 w-full btn btn-danger">
+            Annuler
+          </button>
+        </div>
+          </div>
+
+          <div class="flex gap-3 my-3 text-text">
+            <p>Déjà un compte sur ?</p>
+            <a href="/login" class="font-medium text-secondary hover:text-primary">Se connecter</a>
+          </div>
+        </form>
+      } @else {
+        <p class="text-center text-gray-600">Chargement du formulaire...</p>
+      }
+    </div>
+  </div>
+</div>
